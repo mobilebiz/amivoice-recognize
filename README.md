@@ -259,7 +259,7 @@ Assets:
         "play_beep": "true",
         "finish_on_key": "#",
         "timeout": 5,
-        "max_length": 3600
+        "max_length": 30
       }
     },
     {
