@@ -123,6 +123,9 @@ exports.handler = async function (context, event, callback) {
 
 音声認識が正常に完了すると、戻り値の `text` パラメータに結果が入りますので、このプログラムではそれを JSON 形式で返却しています。
 
+**重要**  
+Twilio Functions では、タイムアウト値が 10 秒となっているため、録音データが長いと認識結果が戻る前にタイムアウトになってしまうことが予想されます。 その場合は、Twilio Functions ではなく、AWS Lambda など、タイムアウト値が長く設定できるサービスを選択してください。
+
 ### デプロイ
 
 デプロイするときは、Twilio CLI プロファイルが対象の Twilio プロジェクトのものであることを確認してください。  

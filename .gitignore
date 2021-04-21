@@ -117,3 +117,6 @@ dist
 
 # twilio-functions
 .twilio-functions
+
+# git token
+.gittoken
