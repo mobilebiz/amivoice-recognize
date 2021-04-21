@@ -1,0 +1,127 @@
+{
+  "description": "AMIVoice Recognize",
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "transitions": [
+        {
+          "event": "incomingMessage"
+        },
+        {
+          "next": "RecordingGuide",
+          "event": "incomingCall"
+        },
+        {
+          "event": "incomingRequest"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -120,
+          "y": 60
+        }
+      }
+    },
+    {
+      "name": "RecordingGuide",
+      "type": "say-play",
+      "transitions": [
+        {
+          "next": "Recording",
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "voice": "Polly.Mizuki",
+        "offset": {
+          "x": -60,
+          "y": 240
+        },
+        "loop": 1,
+        "say": "ただいま電話に出ることができません。お手数ですが発信音のあとに30秒以内でメッセージをお願いします。終わりましたら、最後にシャープを押してください。では、どうぞ。",
+        "language": "ja-JP"
+      }
+    },
+    {
+      "name": "Recording",
+      "type": "record-voicemail",
+      "transitions": [
+        {
+          "next": "Recognize",
+          "event": "recordingComplete"
+        },
+        {
+          "event": "noAudio"
+        },
+        {
+          "event": "hangup"
+        }
+      ],
+      "properties": {
+        "transcribe": false,
+        "offset": {
+          "x": -60,
+          "y": 470
+        },
+        "trim": "trim-silence",
+        "play_beep": "true",
+        "finish_on_key": "#",
+        "timeout": 5,
+        "max_length": 3600
+      }
+    },
+    {
+      "name": "Recognize",
+      "type": "run-function",
+      "transitions": [
+        {
+          "next": "Replay",
+          "event": "success"
+        },
+        {
+          "event": "fail"
+        }
+      ],
+      "properties": {
+        "service_sid": "",
+        "environment_sid": "",
+        "offset": {
+          "x": -60,
+          "y": 700
+        },
+        "function_sid": "",
+        "parameters": [
+          {
+            "value": "{{widgets.Recording.RecordingUrl}}",
+            "key": "RecordingUrl"
+          }
+        ],
+        "url": "https://amivoice-recognize-XXXX-dev.twil.io/ami/recognize"
+      }
+    },
+    {
+      "name": "Replay",
+      "type": "say-play",
+      "transitions": [
+        {
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "voice": "Polly.Mizuki",
+        "offset": {
+          "x": -60,
+          "y": 930
+        },
+        "loop": 1,
+        "say": "{{widgets.Recognize.parsed.text}}",
+        "language": "ja-JP"
+      }
+    }
+  ],
+  "initial_state": "Trigger",
+  "flags": {
+    "allow_concurrent_calls": true
+  }
+}
