@@ -1,34 +1,39 @@
-const axios = require("axios");
-const FormData = require("form-data");
+const axios = require('axios');
+const { setTimeout } = require('node:timers');
+const FormData = require('form-data');
 
 exports.handler = async function (context, event, callback) {
-  console.log("Recognize start.");
+  console.log('Recognize start.');
   try {
-    const data = new FormData();
+    const formData = new FormData();
+
+    // Wait one second.
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Download from Twilio
     const res = await axios({
-      method: "GET",
+      method: 'GET',
       url: `${event.RecordingUrl}.wav`,
-      responseType: "stream",
+      responseType: 'stream',
       auth: {
         username: context.ACCOUNT_SID,
         password: context.AUTH_TOKEN,
       },
     });
+    console.log(`🐞 recording downloaded.`);
 
     // Send to AMI Voice
-    data.append("u", context.AMI_APP_KEY);
-    data.append("d", `grammarFileNames=${context.AMI_ENGINE}`);
-    data.append("c", "8k");
-    data.append("a", res.data);
+    formData.append('u', context.AMI_APP_KEY);
+    formData.append('d', `grammarFileNames=${context.AMI_ENGINE}`);
+    formData.append('c', '8k');
+    formData.append('a', res.data);
     const config = {
-      method: "post",
+      method: 'post',
       url: `${context.AMI_URL}`,
       headers: {
-        ...data.getHeaders(),
+        ...formData.getHeaders(),
       },
-      data: data,
+      data: formData,
     };
     const result = await axios(config);
     console.log(`Recognize completed.`);
@@ -37,6 +42,7 @@ exports.handler = async function (context, event, callback) {
       text: result.data.text,
     });
   } catch (err) {
+    console.log(`👺 ERROR: ${err}`);
     callback(err);
   }
 };

@@ -5,10 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "twilio-run",
-    "deploy": "twilio-run deploy"
+    "deploy": "twilio serverless:deploy --runtime=node14 -p FH5forKWC --force"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.27.2",
     "form-data": "^2.5.1",
     "twilio": "^3.56"
   },
@@ -16,6 +16,6 @@
     "twilio-run": "^2.6.0"
   },
   "engines": {
-    "node": "12"
+    "node": "14"
   }
 }

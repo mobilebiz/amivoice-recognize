@@ -28,8 +28,9 @@ AmiVoice は、音声認識市場シェア No.1 の、話し言葉に強い音�
 もちろん、Twilio のアカウントも必要です。また、電話番号も必要ですので、まだ取得していない方は[こちら](https://cloudapi.kddi-web.com/signup)からアカウントを作成してください。  
 日本の 050 番号を取得するには、Bundles の登録も必要となります。詳しくは以下の記事をご覧ください。
 
-- [Twilio で Bundles（本人認証）の設定を行う（個人編）](https://qiita.com/mobilebiz/items/579d1920a8b0bca96459)
-- [Twilio で Bundles（本人認証）の設定を行う（法人編）](https://qiita.com/mobilebiz/items/4d09a15a355ae5df3d24)
+- ~~[Twilio で Bundles（本人認証）の設定を行う（個人編）](https://qiita.com/mobilebiz/items/579d1920a8b0bca96459)~~  
+  ※現在、個人で日本の番号を購入することはできません
+- [Twilio 上で日本の電話番号を購入する方法（2021 年 9 月版）](https://qiita.com/mobilebiz/items/8c51ac4dce7baa49aa36)
 
 ### Twilio CLI
 
